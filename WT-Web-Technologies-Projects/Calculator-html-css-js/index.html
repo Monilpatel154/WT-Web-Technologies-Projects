@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Calculator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background: radial-gradient(circle at center, #0f2027, #000814 80%);
+}
+
+/* 🌌 Rotating Galaxy Background */
+body::before{
+    content:"";
+    position:absolute;
+    width:200%;
+    height:200%;
+    background: radial-gradient(circle, rgba(0,255,255,0.15), transparent 60%),
+                radial-gradient(circle at 30% 70%, rgba(255,0,255,0.15), transparent 60%);
+    animation: rotateGalaxy 60s linear infinite;
+}
+
+@keyframes rotateGalaxy{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+}
+
+/* 🌠 Shooting Stars */
+.star{
+    position:absolute;
+    width:3px;
+    height:100px;
+    background: linear-gradient(white, transparent);
+    opacity:0.8;
+    transform: rotate(45deg);
+    animation: shoot 4s linear infinite;
+}
+
+@keyframes shoot{
+    0%{ transform: translate(-200px,-200px) rotate(45deg); opacity:1; }
+    100%{ transform: translate(800px,800px) rotate(45deg); opacity:0; }
+}
+
+/* 🪐 Floating Planets */
+.planet{
+    position:absolute;
+    border-radius:50%;
+    animation: float 6s ease-in-out infinite alternate;
+}
+
+.planet1{
+    width:60px;
+    height:60px;
+    background: radial-gradient(circle,#00c6ff,#0072ff);
+    top:10%;
+    left:10%;
+}
+
+.planet2{
+    width:40px;
+    height:40px;
+    background: radial-gradient(circle,#ff00cc,#333399);
+    bottom:15%;
+    right:15%;
+}
+
+@keyframes float{
+    from{ transform: translateY(0px); }
+    to{ transform: translateY(20px); }
+}
+
+/* 🧮 Calculator */
+.calculator{
+    position:relative;
+    width:340px;
+    padding:25px;
+    border-radius:25px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 50px rgba(0,255,255,0.3);
+    z-index:2;
+}
+
+.display{
+    width:100%;
+    height:80px;
+    border:none;
+    border-radius:15px;
+    padding:15px;
+    font-size:32px;
+    text-align:right;
+    margin-bottom:20px;
+    background:rgba(0,0,0,0.7);
+    color:#00ffff;
+    outline:none;
+}
+
+/* Perfect Grid Layout */
+.buttons{
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:12px;
+}
+
+button{
+    height:65px;
+    border:none;
+    border-radius:15px;
+    font-size:20px;
+    cursor:pointer;
+    color:white;
+    background: rgba(255,255,255,0.08);
+    transition:0.2s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 10px #00ffff;
+}
+
+button:active{
+    transform:scale(0.95);
+}
+
+.operator{
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
+}
+
+.equal{
+    background: linear-gradient(135deg,#00ff9d,#00c853);
+    grid-column: span 2;
+}
+
+.clear{
+    background: linear-gradient(135deg,#ff416c,#ff4b2b);
+}
+</style>
+</head>
+
+<body>
+
+<div class="planet planet1"></div>
+<div class="planet planet2"></div>
+<div class="star" style="top:20%; left:30%; animation-delay:0s;"></div>
+<div class="star" style="top:60%; left:70%; animation-delay:2s;"></div>
+
+<div class="calculator">
+    <input type="text" id="display" class="display" disabled>
+
+    <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button onclick="appendValue('%')">%</button>
+        <button onclick="appendValue('.')">.</button>
+        <button class="operator" onclick="appendValue('/')">÷</button>
+
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button class="operator" onclick="appendValue('*')">×</button>
+
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button class="operator" onclick="appendValue('-')">−</button>
+
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button class="operator" onclick="appendValue('+')">+</button>
+
+        <button onclick="appendValue('0')">0</button>
+        <button class="equal" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<script>
+const display = document.getElementById("display");
+
+function appendValue(value){
+    display.value += value;
+}
+
+function clearDisplay(){
+    display.value = "";
+}
+
+function calculate(){
+    try{
+        display.value = Function("return " + display.value)();
+    }catch{
+        display.value = "Error";
+    }
+}
+</script>
+
+</body>
+</html>

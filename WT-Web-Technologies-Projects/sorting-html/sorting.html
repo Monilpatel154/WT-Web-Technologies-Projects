@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student & Market Smart Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+*{
+box-sizing:border-box;
+font-family:'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+}
+
+body{
+margin:0;
+padding:26px 14px 36px;
+background:
+radial-gradient(circle at top right, #dff5ea 0%, transparent 40%),
+radial-gradient(circle at top left, #e7eeff 0%, transparent 38%),
+#f6f7fb;
+color:#1f2430;
+text-align:center;
+}
+
+h1{
+margin:0;
+font-size:clamp(1.4rem, 3vw, 2.15rem);
+font-weight:700;
+letter-spacing:-0.03em;
+color:#111827;
+}
+
+.subtitle{
+margin:10px auto 0;
+max-width:620px;
+color:#5b6272;
+font-size:0.95rem;
+}
+
+.topActions{
+display:flex;
+justify-content:center;
+margin:14px 0 4px;
+}
+
+.container{
+width:min(1080px, 96%);
+margin:20px auto 0;
+padding:18px;
+background:#ffffff;
+border:1px solid #e8eaf1;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(27, 39, 65, 0.08);
+overflow-x:auto;
+}
+
+button{
+padding:10px 16px;
+border:1px solid #d7dbe7;
+border-radius:10px;
+background:#ffffff;
+color:#1f2430;
+cursor:pointer;
+font-weight:600;
+transition:all 0.22s ease;
+}
+
+button:hover{
+background:#0f766e;
+border-color:#0f766e;
+color:#ffffff;
+transform:translateY(-1px);
+box-shadow:0 8px 18px rgba(15, 118, 110, 0.24);
+}
+
+#themeToggle{
+min-width:150px;
+}
+
+.switchBtns{
+display:flex;
+justify-content:center;
+gap:10px;
+margin:18px auto 8px;
+flex-wrap:wrap;
+}
+
+.controls{
+display:flex;
+justify-content:center;
+gap:10px;
+margin:16px 0 10px;
+flex-wrap:wrap;
+}
+
+.searchBox{
+position:relative;
+}
+
+.searchBox input{
+padding:10px 12px;
+padding-left:35px;
+border-radius:10px;
+border:1px solid #d8dce8;
+width:220px;
+background:#fcfcff;
+color:#1f2430;
+outline:none;
+transition:border-color 0.2s, box-shadow 0.2s;
+}
+
+.searchBox input:focus,
+select:focus{
+border-color:#0f766e;
+box-shadow:0 0 0 3px rgba(15, 118, 110, 0.14);
+}
+
+.searchBox span{
+position:absolute;
+left:10px;
+top:9px;
+opacity:0.7;
+}
+
+select{
+padding:10px 12px;
+border-radius:10px;
+border:1px solid #d8dce8;
+background:#fcfcff;
+color:#1f2430;
+outline:none;
+}
+
+table{
+width:100%;
+margin-top:14px;
+border-collapse:collapse;
+background:#ffffff;
+color:#1f2430;
+border-radius:12px;
+overflow:hidden;
+min-width:640px;
+}
+
+th{
+background:#0f172a;
+color:#f8fafc;
+padding:12px 10px;
+font-weight:600;
+}
+
+td{
+padding:11px 10px;
+border-bottom:1px solid #ebedf4;
+}
+
+tr:hover{
+background:#f4f8ff;
+}
+
+.hidden{
+display:none;
+}
+
+.totalBox{
+margin-top:16px;
+display:inline-block;
+padding:10px 16px;
+border-radius:10px;
+font-size:1rem;
+font-weight:600;
+color:#0f766e;
+background:#eafaf7;
+border:1px solid #c6ede7;
+}
+
+body.dark{
+background:
+radial-gradient(circle at top right, #1d263f 0%, transparent 40%),
+radial-gradient(circle at top left, #102831 0%, transparent 38%),
+#0b111b;
+color:#d8deea;
+}
+
+body.dark h1{
+color:#f8fbff;
+}
+
+body.dark .subtitle{
+color:#aeb8cb;
+}
+
+body.dark .container{
+background:#111a29;
+border-color:#22304a;
+box-shadow:0 10px 28px rgba(1, 6, 18, 0.45);
+}
+
+body.dark button,
+body.dark select,
+body.dark .searchBox input{
+background:#1a2538;
+color:#e8edf9;
+border-color:#2f3c57;
+}
+
+body.dark button:hover{
+background:#14b8a6;
+border-color:#14b8a6;
+color:#072221;
+box-shadow:0 8px 18px rgba(20, 184, 166, 0.25);
+}
+
+body.dark table{
+background:#131d2d;
+color:#dfe6f3;
+}
+
+body.dark th{
+background:#0b1220;
+color:#eef3ff;
+}
+
+body.dark td{
+border-bottom-color:#243148;
+}
+
+body.dark tr:hover{
+background:#1a2940;
+}
+
+body.dark .totalBox{
+background:#112b2a;
+border-color:#255451;
+color:#7ce6d8;
+}
+
+@media (max-width: 700px){
+body{
+padding:20px 10px 26px;
+}
+
+.container{
+padding:12px;
+border-radius:14px;
+}
+
+.searchBox input{
+width:100%;
+min-width:190px;
+}
+
+.controls{
+justify-content:stretch;
+}
+
+button,
+select{
+width:100%;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Smart Student & Market Dashboard</h1>
+<p class="subtitle">Minimal interface for quick student insights and market product filtering</p>
+
+<div class="topActions">
+<button id="themeToggle" onclick="toggleTheme()">Dark Mode</button>
+</div>
+
+<div class="switchBtns">
+<button onclick="showSection('students')">Students</button>
+<button onclick="showSection('products')">Market Products</button>
+</div>
+
+<div class="container">
+
+<!-- STUDENTS -->
+
+<div id="students">
+
+<div class="controls">
+
+<div class="searchBox">
+<span>🔎</span>
+<input id="studentSearch" placeholder="Search student">
+</div>
+
+<select id="deptFilter">
+<option value="All">All Departments</option>
+<option value="CSE">CSE</option>
+<option value="ECE">ECE</option>
+<option value="ME">ME</option>
+<option value="EEE">EEE</option>
+<option value="IT">IT</option>
+</select>
+
+<button onclick="sortMarks()">Sort by Marks</button>
+<button onclick="showAllStudents()">Reset</button>
+
+</div>
+
+<table id="studentTable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Age</th>
+<th>Department</th>
+<th>Course</th>
+<th>Marks</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+
+<!-- PRODUCTS -->
+
+<div id="products" class="hidden">
+
+<div class="controls">
+
+<div class="searchBox">
+<span>🔎</span>
+<input id="productSearch" placeholder="Search product">
+</div>
+
+<select id="typeFilter">
+<option value="All">All Types</option>
+<option value="Electronics">Electronics</option>
+<option value="Food">Food</option>
+</select>
+
+<button onclick="showCart()">Cart Items</button>
+<button onclick="totalCart()">Total Cart</button>
+<button onclick="showAllProducts()">Reset</button>
+
+</div>
+
+<table id="productTable">
+<thead>
+<tr>
+<th>Product</th>
+<th>Type</th>
+<th>Price</th>
+<th>In Cart</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<div id="cartTotal" class="totalBox"></div>
+
+</div>
+
+</div>
+
+<script>
+
+let students=[
+{name:"Arjun",age:19,dept:"CSE",course:"Machine Learning",marks:91},
+{name:"Meera",age:20,dept:"ECE",course:"Embedded Systems",marks:74},
+{name:"Ravi",age:21,dept:"ME",course:"Thermodynamics",marks:69},
+{name:"Sanjay",age:22,dept:"IT",course:"Cloud Computing",marks:87},
+{name:"Divya",age:20,dept:"CSE",course:"Artificial Intelligence",marks:93},
+{name:"Kabir",age:23,dept:"EEE",course:"Power Systems",marks:71},
+{name:"Isha",age:21,dept:"ECE",course:"VLSI Design",marks:79},
+{name:"Manish",age:22,dept:"ME",course:"Fluid Mechanics",marks:68},
+{name:"Nikita",age:20,dept:"IT",course:"Cyber Security",marks:85},
+{name:"Varun",age:23,dept:"CSE",course:"Data Science",marks:96},
+{name:"Priya",age:19,dept:"IT",course:"Web Security",marks:82},
+{name:"Rohan",age:22,dept:"ECE",course:"Digital Signal Processing",marks:76},
+{name:"Sneha",age:21,dept:"EEE",course:"Control Systems",marks:88},
+{name:"Aakash",age:20,dept:"ME",course:"CAD/CAM",marks:73},
+{name:"Tina",age:19,dept:"CSE",course:"Operating Systems",marks:90},
+{name:"Yash",age:22,dept:"IT",course:"DevOps",marks:84}
+];
+
+let products=[
+{name:"Tablet",type:"Electronics",price:25000,inCart:true},
+{name:"Smart Watch",type:"Electronics",price:8000,inCart:false},
+{name:"Bluetooth Speaker",type:"Electronics",price:3500,inCart:true},
+{name:"Banana",type:"Food",price:60,inCart:true},
+{name:"Rice",type:"Food",price:120,inCart:false},
+{name:"Butter",type:"Food",price:90,inCart:true},
+{name:"Gaming Mouse",type:"Electronics",price:2200,inCart:false},
+{name:"Ice Cream",type:"Food",price:150,inCart:true},
+{name:"Laptop Stand",type:"Electronics",price:1400,inCart:true},
+{name:"Protein Bar",type:"Food",price:45,inCart:false},
+{name:"Earbuds",type:"Electronics",price:2999,inCart:true},
+{name:"Green Tea",type:"Food",price:180,inCart:false},
+{name:"Portable SSD",type:"Electronics",price:6200,inCart:false},
+{name:"Peanut Butter",type:"Food",price:275,inCart:true}
+];
+
+function applySavedTheme(){
+let saved=localStorage.getItem("dashboardTheme")||"light";
+if(saved==="dark"){
+document.body.classList.add("dark");
+}
+updateThemeButton();
+}
+
+function updateThemeButton(){
+let btn=document.getElementById("themeToggle");
+if(!btn){
+return;
+}
+btn.innerText=document.body.classList.contains("dark")?"Light Mode":"Dark Mode";
+}
+
+function toggleTheme(){
+document.body.classList.toggle("dark");
+localStorage.setItem("dashboardTheme",document.body.classList.contains("dark")?"dark":"light");
+updateThemeButton();
+}
+
+/* LOGIC REMAINS SAME BELOW */
+
+function showSection(section){
+document.getElementById("students").classList.add("hidden");
+document.getElementById("products").classList.add("hidden");
+document.getElementById(section).classList.remove("hidden");
+}
+
+function renderStudents(data){
+let tbody=document.querySelector("#studentTable tbody");
+tbody.innerHTML="";
+data.forEach(s=>{
+tbody.innerHTML+=`
+<tr>
+<td>${s.name}</td>
+<td>${s.age}</td>
+<td>${s.dept}</td>
+<td>${s.course}</td>
+<td>${s.marks}</td>
+</tr>`;
+});
+}
+
+function renderProducts(data){
+let tbody=document.querySelector("#productTable tbody");
+tbody.innerHTML="";
+data.forEach(p=>{
+tbody.innerHTML+=`
+<tr>
+<td>${p.name}</td>
+<td>${p.type}</td>
+<td>₹${p.price}</td>
+<td>${p.inCart}</td>
+</tr>`;
+});
+}
+
+function showAllStudents(){
+document.getElementById("studentSearch").value="";
+document.getElementById("deptFilter").value="All";
+renderStudents(students);
+}
+
+function showAllProducts(){
+document.getElementById("productSearch").value="";
+document.getElementById("typeFilter").value="All";
+document.getElementById("cartTotal").innerText="";
+renderProducts(products);
+}
+
+function filterStudents(){
+let val=document.getElementById("studentSearch").value.trim().toLowerCase();
+let dept=document.getElementById("deptFilter").value;
+
+let result=students.filter(s=>{
+let matchesName=s.name.toLowerCase().includes(val);
+let matchesDept=dept==="All"||s.dept===dept;
+return matchesName&&matchesDept;
+});
+
+renderStudents(result);
+}
+
+function filterProducts(){
+let val=document.getElementById("productSearch").value.trim().toLowerCase();
+let type=document.getElementById("typeFilter").value;
+
+let result=products.filter(p=>{
+let matchesName=p.name.toLowerCase().includes(val);
+let matchesType=type==="All"||p.type===type;
+return matchesName&&matchesType;
+});
+
+renderProducts(result);
+}
+
+document.getElementById("studentSearch").addEventListener("input",filterStudents);
+document.getElementById("productSearch").addEventListener("input",filterProducts);
+document.getElementById("deptFilter").addEventListener("change",filterStudents);
+document.getElementById("typeFilter").addEventListener("change",filterProducts);
+
+function sortMarks(){
+let sorted=[...students].sort((a,b)=>b.marks-a.marks);
+renderStudents(sorted);
+}
+
+function showCart(){
+let cart=products.filter(p=>p.inCart);
+renderProducts(cart);
+}
+
+function totalCart(){
+let total=products
+.filter(p=>p.inCart)
+.reduce((sum,p)=>sum+p.price,0);
+
+document.getElementById("cartTotal").innerText="Total Cart Price : ₹"+total;
+}
+
+showAllStudents();
+showAllProducts();
+applySavedTheme();
+
+</script>
+
+</body>
+</html>
