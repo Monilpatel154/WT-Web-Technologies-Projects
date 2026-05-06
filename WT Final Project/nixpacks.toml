@@ -1,5 +1,16 @@
 [phases.setup]
-nixPkgs = ["php82", "php82Extensions.pdo_mysql", "php82Extensions.mbstring", "php82Extensions.openssl", "php82Extensions.curl", "php82Extensions.fileinfo"]
+nixPkgs = [
+  "php82",
+  "php82Extensions.pdo",
+  "php82Extensions.pdo_mysql",
+  "php82Extensions.mysqlnd",
+  "php82Extensions.mbstring",
+  "php82Extensions.openssl",
+  "php82Extensions.curl",
+  "php82Extensions.fileinfo",
+  "php82Extensions.session",
+  "php82Extensions.json"
+]
 
 [start]
 cmd = "php -S 0.0.0.0:$PORT -t ."

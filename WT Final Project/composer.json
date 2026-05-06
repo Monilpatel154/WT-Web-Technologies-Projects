@@ -1,0 +1,19 @@
+{
+    "name": "skillswap/skillswap",
+    "description": "SkillSwap - Student Skill Exchange Platform",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-fileinfo": "*",
+        "ext-json": "*",
+        "ext-session": "*"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}
