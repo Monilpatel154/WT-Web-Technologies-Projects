@@ -1,0 +1,25 @@
+# Local MySQL data directories (never commit DB data)
+.mysql/
+.mysql3307/
+
+# Environment / secrets
+.env
+.env.local
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Uploaded user files (too large for git, use cloud storage in production)
+uploads/
+
+# PHP error logs
+*.log
+error_log
+
+# Compiled/dist artifacts
+.dist/
